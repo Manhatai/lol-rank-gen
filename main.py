@@ -2,6 +2,7 @@ import tkinter
 import customtkinter
 import random as rd
 from pyprobs import Probability as pr
+from PIL import Image
 
 # App frame
 root = customtkinter.CTk()
@@ -10,15 +11,16 @@ root.title("SoloQ Simulator")
 
 # System settings
 customtkinter.set_appearance_mode("dark")
-customtkinter.set_default_color_theme("blue")
+customtkinter.set_default_color_theme("dark-blue")
 
 
-rank_types = {"iron IV": 0, "iron III": 100, "iron II": 200, "iron I": 300, "bronze IV": 400, "bronze III": 500,
-              "bronze II": 600, "bronze I": 700, "silver IV": 800, "silver III": 900, "silver II": 1000,
-              "silver I": 1100, "gold IV": 1200, "gold III": 1300, "gold II": 1400, "gold I": 1500,
-              "platinum IV": 1600, "platinum III": 1700, "platinum II": 1800, "platinum I": 1900,
-              "emerald IV": 2000, "emerald III": 2100, "emerald II": 2200, "emerald I": 2300, "diamond IV": 2400,
-              "diamond III": 2500, "diamond II": 2600, "diamond I": 2700}
+# Lists used in the program
+rank_types = {"iron iv": 0, "iron iii": 100, "iron ii": 200, "iron i": 300, "bronze iv": 400, "bronze iii": 500,
+              "bronze ii": 600, "bronze i": 700, "silver iv": 800, "silver iii": 900, "silver ii": 1000,
+              "silver i": 1100, "gold iv": 1200, "gold iii": 1300, "gold ii": 1400, "gold i": 1500,
+              "platinum iv": 1600, "platinum iii": 1700, "platinum ii": 1800, "platinum i": 1900,
+              "emerald iv": 2000, "emerald iii": 2100, "emerald ii": 2200, "emerald i": 2300, "diamond iv": 2400,
+              "diamond iii": 2500, "diamond ii": 2600, "diamond i": 2700}
 game_count_prob = []
 lp_total = []
 
@@ -36,7 +38,7 @@ class Calculations():
 
     # Rank input (class)
     def rank_current(self):
-        user_rank = rankInput.get()
+        user_rank = rankInput.get().lower()
         if (user_rank not in rank_types) or (isinstance(user_rank, str) == False):
             print("Rank not found")
             foundLabel.configure(text="Rank not found (example: gold IV)", text_color="red")
@@ -62,7 +64,6 @@ class Calculations():
         except (ValueError, KeyError):
             print("Lp count invalid")
             foundLabel2.configure(text="Lp count invalid (should be 0 - 99)", text_color="red")
-
 
     # Winrate input (class)
     def winrate(self):
@@ -107,7 +108,7 @@ class Calculations():
 
             if check_var.get() == "on":
                 self.games_expected = 10000
-                if lp + rank_types[self.user_rank] >= rank_types[rankNewInput.get()]:
+                if lp + rank_types[self.user_rank] >= rank_types[rankNewInput.get().lower()]:
                     game_count_prob.append(game_count)
                     break
 
@@ -169,7 +170,7 @@ def checkbox():
         title5.forget()
         title6.pack()
         checkboxLabel.configure(text="Your desired rank cant be lower than exactly one rank up.",
-                                text_color="white")
+                                text_color="white", font=("Roboto", 14))
         rankNewInput.pack()
     else:
         gamesExpected.configure(state="normal")
@@ -186,13 +187,15 @@ def rankProb():
     if check_var.get() == "on":
         rank1 = rankInput.get()
         rank2 = rankNewInput.get()
-        diff1 = rank_types.get(rank1)
-        diff2 = rank_types.get(rank2)
-        if diff2 < (diff1 + 399):
-            checkboxLabel.configure(text="Your desired rank cant be lower than exactly one rank up!", text_color="red")
+        diff1 = rank_types.get(rank1, None)
+        diff2 = rank_types.get(rank2, None)
+        if diff1 is not None and diff2 is not None:
+            if diff2 < (diff1 + 399):
+                checkboxLabel.configure(text="Your desired rank can't be lower than exactly one rank up!", text_color="red")
+            else:
+                checkboxLabel.configure(text="Able to calculate!", text_color="green")
         else:
-            checkboxLabel.configure(text="Able to calculate!", text_color="green")
-
+            checkboxLabel.configure(text="Invalid ranks entered", text_color="red")
 
 
 
@@ -208,11 +211,13 @@ def calculate_and_update():
     checkbox()
     rankProb()
     result_final = calculations.result_final
-    title5.configure(text=f"{result_final}")
+    title5.configure(text=f"{result_final}", font=("Roboto", 18))
     if check_var.get() == "on":
         title5.configure(text="")
         title6.configure(
-            text=f"Games needed to reach the desired rank ({rankNewInput.get()}): {round((sum(game_count_prob)) / len(game_count_prob))}")
+            text=f"Games needed to reach the desired rank ({rankNewInput.get()}): {round((sum(game_count_prob)) / len(game_count_prob))}",
+
+        )
     else:
         title6.configure(text="")
     calculations.clear()
@@ -222,7 +227,7 @@ def calculate_and_update():
 title = customtkinter.CTkLabel(root, text="Enter your rank:", font=("Roboto", 16))
 title.pack(pady=5)
 rank_var = tkinter.StringVar()
-rankInput = customtkinter.CTkEntry(root, width=150, height=25, textvariable=rank_var)
+rankInput = customtkinter.CTkEntry(root, width=150, height=25, textvariable=rank_var, border_width=1, border_color="white",)
 rankInput.pack()
 foundLabel = customtkinter.CTkLabel(root, text="")
 foundLabel.pack()
@@ -231,7 +236,7 @@ foundLabel.pack()
 title2 = customtkinter.CTkLabel(root, text="Enter your lp count (0 - 99):", font=("Roboto", 16))
 title2.pack(pady=5)
 lp_var = tkinter.StringVar()
-leaguePoints = customtkinter.CTkEntry(root, width=150, height=25, textvariable=lp_var)
+leaguePoints = customtkinter.CTkEntry(root, width=150, height=25, textvariable=lp_var, border_width=1, border_color="white",)
 leaguePoints.pack()
 foundLabel2 = customtkinter.CTkLabel(root, text="")
 foundLabel2.pack()
@@ -240,7 +245,7 @@ foundLabel2.pack()
 title3 = customtkinter.CTkLabel(root, text="Enter your winrate (1 - 100):", font=("Roboto", 16))
 title3.pack(pady=5)
 wr_var = tkinter.StringVar()
-winrateInput = customtkinter.CTkEntry(root, width=150, height=25, textvariable=wr_var)
+winrateInput = customtkinter.CTkEntry(root, width=150, height=25, textvariable=wr_var, border_width=1, border_color="white",)
 winrateInput.pack()
 foundLabel3 = customtkinter.CTkLabel(root, text="")
 foundLabel3.pack()
@@ -249,7 +254,7 @@ foundLabel3.pack()
 title4 = customtkinter.CTkLabel(root, text="Enter how many games you want to play:", font=("Roboto", 16))
 title4.pack(pady=5)
 games_var = tkinter.StringVar()
-gamesExpected = customtkinter.CTkEntry(root, width=150, height=25, textvariable=games_var)
+gamesExpected = customtkinter.CTkEntry(root, width=150, height=25, textvariable=games_var, border_width=1, border_color="white",)
 gamesExpected.pack()
 foundLabel4 = customtkinter.CTkLabel(root, text="")
 foundLabel4.pack()
@@ -263,27 +268,37 @@ my_check = customtkinter.CTkCheckBox(
     onvalue="on",
     offvalue="off",
     command=checkbox,
-    font=("Roboto", 16)
+    font=("Roboto", 16),
+    corner_radius=36,
+    border_width=2,
+    border_color="white",
 )
 
 my_check.pack()
 checkboxLabel = customtkinter.CTkLabel(root, text="")
 checkboxLabel.pack()
 rankNew_var = tkinter.StringVar()
-rankNewInput = customtkinter.CTkEntry(root, width=150, height=25, textvariable=rankNew_var)
+rankNewInput = customtkinter.CTkEntry(root, width=150, height=25, textvariable=rankNew_var, border_width=1, border_color="white",)
 
 # Rank result output (app)
 title5 = customtkinter.CTkLabel(root, text="")
 title5.pack(padx=10, pady=10)
 
-
 # Average games to achieve x rank output (app)
 title6 = customtkinter.CTkLabel(root, text="")
+
+# Adding image to users window
+default_image = Image.open('images/diamond.png')
+image_path = customtkinter.CTkImage(dark_image=default_image, size=(200, 200))
+image_label = customtkinter.CTkLabel(root, image=image_path, text="", width=150, height=150)
+image_label.pack()
 
 
 # Calculate button (app)
 calculate = customtkinter.CTkButton(root, width=300, height=50, text="Calculate rank", font=("Roboto", 30),
-                                    command=calculate_and_update)
+                                    command=calculate_and_update, hover_color="green", border_width=2,
+                                    border_color="white",
+                                    )
 calculate.pack(side="bottom", padx=100, pady=10)
 
 # Run app
