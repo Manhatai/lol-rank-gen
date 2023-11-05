@@ -130,7 +130,7 @@ class Calculations():
         result_whole += self.user_lp + rank_types.get(self.user_rank)
         self.result_whole = result_whole
 
-    # Function outputting your rank on the screen (class)
+    # Function outputting your rank on the screen + configuring rank image (class)
     def rank_gained(self):
         rank_ranges = {(0, 99): "iron IV", (100, 199): "iron III", (200, 299): "iron II", (300, 399): "iron I",
                        (400, 499): "bronze IV", (500, 599): "bronze III", (600, 699): "bronze II",
@@ -149,10 +149,41 @@ class Calculations():
                 result_final = f"Your rank should be: {rank} {proper_lp_count}LP"
                 print(result_final)
                 self.result_final = result_final
+                print(proper_lp_count)
+                if self.result_whole in range(0, 399):
+                    image_path.configure(dark_image=iron, size=(200, 200))
+                    image_label.pack()
+
+                if self.result_whole in range(400, 799):
+                    image_path.configure(dark_image=bronze, size=(200, 200))
+                    image_label.pack()
+
+                if self.result_whole in range(800, 1199):
+                    image_path.configure(dark_image=silver, size=(200, 200))
+                    image_label.pack()
+
+                if self.result_whole in range(1200, 1599):
+                    image_path.configure(dark_image=gold, size=(200, 200))
+                    image_label.pack()
+
+                if self.result_whole in range(1600, 1999):
+                    image_path.configure(dark_image=platinum, size=(200, 200))
+                    image_label.pack()
+
+                if self.result_whole in range(2000, 2399):
+                    image_path.configure(dark_image=emerald, size=(200, 200))
+                    image_label.pack()
+
+                if self.result_whole in range(2400, 2799):
+                    image_path.configure(dark_image=diamond, size=(200, 200))
+                    image_label.pack()
+
             if self.result_whole >= 2800:
                 result_final = f"Your rank should be: master+ {proper_lp_count}LP"
                 print(result_final)
                 self.result_final = result_final
+                image_path.configure(dark_image=master, size=(200, 200))
+                image_label.pack()
 
     # Clears all lists everytime the class instance is called (class)
     def clear(self):
@@ -166,15 +197,18 @@ calculations = Calculations()
 # "Enter desired rank" checkbox
 def checkbox():
     if check_var.get() == "on":
+        image_label.forget()
         gamesExpected.configure(state="disabled")
         title5.forget()
         title6.pack()
-        checkboxLabel.configure(text="Your desired rank cant be lower than exactly one rank up.",
+        checkboxLabel.configure(text="Calculations less than one rank up from your current rank might not be as accurate.",
                                 text_color="white", font=("Roboto", 14))
         rankNewInput.pack()
+        image_path.configure(dark_image=default_image, size=(200, 200))
     else:
         gamesExpected.configure(state="normal")
         title5.pack()
+        image_label.pack()
         title6.forget()
         checkboxLabel.configure(text="")
         rankNewInput.delete(0, 'end')
@@ -185,17 +219,15 @@ def checkbox():
 # Calculations in "Enter desired rank" textbox
 def rankProb():
     if check_var.get() == "on":
-        rank1 = rankInput.get()
-        rank2 = rankNewInput.get()
-        diff1 = rank_types.get(rank1, None)
-        diff2 = rank_types.get(rank2, None)
-        if diff1 is not None and diff2 is not None:
-            if diff2 < (diff1 + 399):
-                checkboxLabel.configure(text="Your desired rank can't be lower than exactly one rank up!", text_color="red")
-            else:
-                checkboxLabel.configure(text="Able to calculate!", text_color="green")
+        rank1 = rankInput.get().lower()
+        rank2 = rankNewInput.get().lower()
+        diff1 = rank_types.get(rank1)
+        diff2 = rank_types.get(rank2)
+        if diff2 < (diff1 + 399):
+            checkboxLabel.configure(text="Calculations less than one rank up from your current rank might not be as accurate!", text_color="red")
         else:
-            checkboxLabel.configure(text="Invalid ranks entered", text_color="red")
+            checkboxLabel.configure(text="Able to calculate!", text_color="green")
+
 
 
 
@@ -211,11 +243,15 @@ def calculate_and_update():
     checkbox()
     rankProb()
     result_final = calculations.result_final
-    title5.configure(text=f"{result_final}", font=("Roboto", 18))
+    title5.configure(text=f"{result_final}", font=("Roboto", 20), text_color="#0DFF00")
     if check_var.get() == "on":
         title5.configure(text="")
         title6.configure(
-            text=f"Games needed to reach the desired rank ({rankNewInput.get()}): {round((sum(game_count_prob)) / len(game_count_prob))}",
+            text=f"Games needed to reach the desired rank (average): {round((sum(game_count_prob)) / len(game_count_prob))}",
+            font=("Roboto", 20),
+            text_color="#0DFF00",
+            padx=10,
+            pady=10,
 
         )
     else:
@@ -251,6 +287,7 @@ foundLabel3 = customtkinter.CTkLabel(root, text="")
 foundLabel3.pack()
 
 # Expected games input (app)
+
 title4 = customtkinter.CTkLabel(root, text="Enter how many games you want to play:", font=("Roboto", 16))
 title4.pack(pady=5)
 games_var = tkinter.StringVar()
@@ -258,6 +295,7 @@ gamesExpected = customtkinter.CTkEntry(root, width=150, height=25, textvariable=
 gamesExpected.pack()
 foundLabel4 = customtkinter.CTkLabel(root, text="")
 foundLabel4.pack()
+
 
 # Yes/No checkbox (app)
 check_var = customtkinter.StringVar(value="off")
@@ -288,10 +326,17 @@ title5.pack(padx=10, pady=10)
 title6 = customtkinter.CTkLabel(root, text="")
 
 # Adding image to users window
-default_image = Image.open('images/diamond.png')
+default_image = Image.open('images/default.png')
+iron = Image.open('images/iron.png')
+bronze = Image.open('images/bronze.png')
+silver = Image.open('images/silver.png')
+gold = Image.open('images/gold.png')
+platinum = Image.open('images/platinum.png')
+emerald = Image.open('images/emerald.png')
+diamond = Image.open('images/diamond.png')
+master = Image.open('images/master.png')
 image_path = customtkinter.CTkImage(dark_image=default_image, size=(200, 200))
 image_label = customtkinter.CTkLabel(root, image=image_path, text="", width=150, height=150)
-image_label.pack()
 
 
 # Calculate button (app)
