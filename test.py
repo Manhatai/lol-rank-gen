@@ -158,7 +158,6 @@ class Calculations():
         game_count_prob.clear()
         lp_total.clear()
 
-
 calculations = Calculations()
 
 
