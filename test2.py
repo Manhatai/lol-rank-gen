@@ -1,7 +1,7 @@
 import requests
 
 
-api_key = "RGAPI-fb20c0a7-f9ae-4738-8aea-adafd61427b6"
+api_key = "RGAPI-90c51bb4-5328-47f4-bc5c-98db4d85acf2"
 
 # Summoner's username and the region they play in
 summoner_name = "Hi Im Misfit"
@@ -27,8 +27,21 @@ try:
 
         if rank_response.status_code == 200:
             ranks = rank_response.json()
-            for rank in ranks:
-                print(f"Queue: {rank['queueType']}, Tier: {rank['tier']} {rank['rank']}, LP: {rank['leaguePoints']}")
+
+            # Extract rank information
+            rank_data = [
+                {
+                    "Queue": rank["queueType"],
+                    "Tier": rank["tier"],
+                    "Rank": rank["rank"],
+                    "LP": rank["leaguePoints"]
+                }
+                for rank in ranks
+            ]
+            print(rank_data)
+            for rank in rank_data:
+                print(rank['Tier'], rank["Rank"])  # Print the 'Tier' attribute for each rank
+
         else:
             print(f"Error getting rank information: {rank_response.status_code}")
     else:
