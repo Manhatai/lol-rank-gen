@@ -1,7 +1,11 @@
 import requests
+from dotenv import load_dotenv
+import os
 
 
-api_key = "RGAPI-90c51bb4-5328-47f4-bc5c-98db4d85acf2"
+
+
+api_key = os.getenv("API_KEY")
 
 # Summoner's username and the region they play in
 summoner_name = "Hi Im Misfit"

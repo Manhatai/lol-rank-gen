@@ -4,6 +4,8 @@ import random as rd
 from pyprobs import Probability as pr
 from PIL import Image
 import requests
+from dotenv import load_dotenv
+import os
 
 # App frame
 root = customtkinter.CTk()
