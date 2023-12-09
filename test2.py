@@ -1,21 +1,28 @@
 import requests
 from dotenv import load_dotenv
 import os
+import urllib.parse
 
-
-
+load_dotenv()
 
 api_key = os.getenv("API_KEY")
 
+if not api_key:
+    print("API key is missing. Make sure to set it in your environment variables.")
+    exit()
+
 # Summoner's username and the region they play in
-summoner_name = "Hi Im Misfit"
+summoner_name = "I BLUE KITTY I"
 region = "eun1"  # Replace with the appropriate region
 
-print(f"Summoners name: {summoner_name}")
+print(f"Summoner's name: {summoner_name}")
+
+# Encode summoner name for the URL
+encoded_summoner_name = urllib.parse.quote_plus(summoner_name.replace("#", "%23"))
 
 
 # Define the API endpoint
-base_url = f"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name}"
+base_url = f"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{encoded_summoner_name}"
 headers = {"X-Riot-Token": api_key}
 
 try:
@@ -36,15 +43,14 @@ try:
             rank_data = [
                 {
                     "Queue": rank["queueType"],
-                    "Tier": rank["tier"],
-                    "Rank": rank["rank"],
-                    "LP": rank["leaguePoints"]
+                    "Tier": rank.get("tier", "Unranked"),
+                    "Rank": rank.get("rank", ""),
+                    "LP": rank.get("leaguePoints", 0)
                 }
                 for rank in ranks
             ]
+
             print(rank_data)
-            for rank in rank_data:
-                print(rank['Tier'], rank["Rank"])  # Print the 'Tier' attribute for each rank
 
         else:
             print(f"Error getting rank information: {rank_response.status_code}")
