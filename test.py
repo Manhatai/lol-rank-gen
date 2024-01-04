@@ -27,63 +27,6 @@ rank_types = {"iron iv": 0, "iron iii": 100, "iron ii": 200, "iron i": 300, "bro
 game_count_prob = []
 lp_total = []
 
-load_dotenv()
-
-api_key = os.getenv("API_KEY")
-
-if not api_key:
-    print("API key is missing. Make sure to set it in your environment variables.")
-    exit()
-
-# Summoners username and the region they play in
-summoner_name = "Hi Im Misfit"
-region = "eun1"  # Replace with the appropriate region
-
-print(f"Summoner's name: {summoner_name}")
-
-# Encode summoner name for the URL
-encoded_summoner_name = urllib.parse.quote_plus(summoner_name.replace("#", "%23"))
-
-
-# Getting Users rank and lp
-# Define the API endpoint
-base_url = f"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{encoded_summoner_name}"
-headers = {"X-Riot-Token": api_key}
-
-try:
-    response = requests.get(base_url, headers=headers)
-
-    if response.status_code == 200:
-        summoner_data = response.json()
-        summoner_id = summoner_data['id']
-
-        # Get the summoner's rank information
-        rank_url = f"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner_id}"
-        rank_response = requests.get(rank_url, headers=headers)
-
-        if rank_response.status_code == 200:
-            ranks = rank_response.json()
-
-            # Extract rank information
-            rank_data = [ #a list of dictionaries
-                {
-                    "Queue": rank["queueType"],
-                    "Tier": rank.get("tier", "Unranked"),
-                    "Rank": rank.get("rank", ""),
-                    "LP": rank.get("leaguePoints", 0)
-                }
-                for rank in ranks
-            ]
-
-            print(rank_data)
-
-        else:
-            print(f"Error getting rank information: {rank_response.status_code}")
-    else:
-        print(f"Error getting summoner information: {response.status_code}")
-
-except Exception as e:
-    print(f"An error occurred: {e}")
 
 # Class doing all the work
 class Calculations():
@@ -251,7 +194,7 @@ class Calculations():
                     image_label.pack()
 
             if self.result_whole >= 2800:
-                result_final = f"Your rank should be: master+ {proper_lp_count}LP"
+                result_final = f"Your rank should be: master+"
                 print(result_final)
                 self.result_final = result_final
                 image_path.configure(dark_image=master, size=(200, 200))
@@ -428,6 +371,78 @@ calculate = customtkinter.CTkButton(root, width=300, height=50, text="Calculate 
                                     border_color="white",
                                     )
 calculate.pack(side="bottom", padx=100, pady=10)
+
+
+
+# NOTKA:
+# TO MA BYĆ FUNKCJA KTÓRA SPRAWDZA POPRAWNOŚĆ NAZWY USERA PO WCIŚNIĘCIU PRZYCISKU "CALCULATE", CZYLI BĘDZIE NADAWAĆ SIĘ
+# DO KLASY GŁÓWNEJ. NIE ZAPOMNIEĆ!!!
+# Getting Users username and the region they play in
+load_dotenv()
+
+api_key = os.getenv("API_KEY")
+
+if not api_key:
+    print("API key is missing. Make sure to set it in your environment variables.")
+    exit()
+
+# Summoners username and the region they play in
+summoner_name = rankInput.get()
+region = "eun1"  # Replace with the appropriate region
+
+print(f"Summoner's name: {summoner_name}")
+
+# Encode summoner name for the URL
+encoded_summoner_name = urllib.parse.quote_plus(summoner_name.replace("#", "%23"))
+
+
+# Getting Users rank and lp
+# Define the API endpoint
+base_url = f"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{encoded_summoner_name}"
+headers = {"X-Riot-Token": api_key}
+
+try:
+    response = requests.get(base_url, headers=headers)
+
+    if response.status_code == 200:
+        summoner_data = response.json()
+        summoner_id = summoner_data['id']
+
+        # Get the summoner's rank information
+        rank_url = f"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner_id}"
+        rank_response = requests.get(rank_url, headers=headers)
+
+        if rank_response.status_code == 200:
+            ranks = rank_response.json()
+
+            # Extract rank information
+            rank_data = [ #a list of dictionaries
+                {
+                    "Queue": rank["queueType"],
+                    "Rank": rank.get("tier", "Unranked"),
+                    "Division": rank.get("rank", ""),
+                    "LP": rank.get("leaguePoints", 0)
+                }
+                for rank in ranks
+            ]
+
+            print(rank_data[2])
+            users_soloq_rank = rank_data[2]
+            users_rank = users_soloq_rank["Rank"]
+            users_div = users_soloq_rank["Division"]
+            users_lp = users_soloq_rank["LP"]
+
+            print(users_rank + ' ' + users_div, users_lp)
+
+
+        else:
+            print(f"Error getting rank information: {rank_response.status_code}")
+    else:
+        print(f"Error getting summoner information: {response.status_code}")
+
+except Exception as e:
+    print(f"An error occurred: {e}")
+
 
 # Run app
 root.mainloop()
