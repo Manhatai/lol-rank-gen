@@ -144,7 +144,7 @@ class Calculations():
         result_whole += self.user_lp + rank_types.get(self.user_rank)
         self.result_whole = result_whole
 
-    # Function outputting your rank on the screen + configuring rank image (class)
+    # Function outputting your rank on the screen + displaying rank image (class)
     def rank_gained(self):
         rank_ranges = {(0, 99): "iron IV", (100, 199): "iron III", (200, 299): "iron II", (300, 399): "iron I",
                        (400, 499): "bronze IV", (500, 599): "bronze III", (600, 699): "bronze II",

@@ -11,8 +11,8 @@ if not api_key:
     print("API key is missing. Make sure to set it in your environment variables.")
     exit()
 
-# Summoner's username and the region they play in
-summoner_name = "I BLUE KITTY I"
+# Summoners username and the region they play in
+summoner_name = "Hi Im Misfit"
 region = "eun1"  # Replace with the appropriate region
 
 print(f"Summoner's name: {summoner_name}")
