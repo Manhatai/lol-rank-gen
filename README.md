@@ -1,5 +1,5 @@
 # SoloqSimVisualInterfaceWIP
-Currently wip visual interface of soloqsim with all its features, only adding new ones to it. 
+Currently wip visual interface of soloqsim with all its features.
 
 To do:
 - Option to put in riot id instead of rank (almost done)
