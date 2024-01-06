@@ -313,7 +313,7 @@ def username_check():
                     users_div = users_soloq_rank["Division"]
                     users_lp = users_soloq_rank["LP"]
                     print(users_rank + ' ' + users_div, users_lp)
-                    foundLabel2.configure(text='123guwno')
+                    title3.configure(text='123TEST123')
 
 
 
@@ -336,7 +336,6 @@ def username_check():
 # Gives "Calculate rank" button the data it needs
 def calculate_and_update():
     checkbox()
-    username_check()
     calculations.rank_current()
     calculations.lp_count()
     calculations.winrate()
@@ -361,6 +360,7 @@ def calculate_and_update():
         )
     else:
         title6.configure(text="")
+    username_check()
     calculations.clear()
 
 
