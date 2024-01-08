@@ -3,6 +3,7 @@ Currently wip visual interface of soloqsim with all its features.
 
 To do:
 - ~~Option to put in riot id instead of rank~~ (done)
+- NumPy lists instead of normal ones
 - Mmr simulation
 - Main loop optimization
 
