@@ -44,7 +44,7 @@ class Calculations():
         user_rank = rankInput.get().lower()
         if (user_rank not in rank_types) or (isinstance(user_rank, str) == False):
             print("Rank not found")
-            foundLabel.configure(text="Rank not found (example: gold IV)", text_color="red")
+            foundLabel.configure(text="Rank/Username not found (example: gold IV)", text_color="red")
             rankInput.configure(border_width=2, border_color="red")
         else:
             print("Rank found!!!")
@@ -252,9 +252,9 @@ def rankProb():
             checkboxLabel.configure(text="Able to calculate!", text_color="green")
 
 
-
+# Getting Users account info based off RiotID
 def username_check():
-    # Getting Users username and the region they play in
+    # Getting Users RiotID
     load_dotenv()
 
     api_key = os.getenv("API_KEY")
@@ -303,22 +303,23 @@ def username_check():
                 ]
 
 
-                #print(rank_data)
+                print(rank_data)
 
                 # If bool is true (list isnt empty) do this, or else:
                 if bool(rank_data):
                     print("Username checks out!")
-                    users_soloq_rank = rank_data[2]
+                    users_soloq_rank = next(item for item in rank_data if item["Queue"] == "RANKED_SOLO_5x5")
                     users_rank = users_soloq_rank["Rank"]
                     users_div = users_soloq_rank["Division"]
                     users_lp = users_soloq_rank["LP"]
-                    print(users_rank + ' ' + users_div, users_lp)
-                    title3.configure(text='123TEST123')
-
-
+                    rankInput.delete(0, tkinter.END)
+                    rankInput.insert(0, str(users_rank + ' ' + users_div))
+                    leaguePoints.delete(0, tkinter.END)
+                    leaguePoints.insert(0, str(users_lp))
+                    root.update()
 
                 else:
-                    print("Invalid Username!")
+                    print("Invalid Username or User hasn't played any solo ranked games!")
                     pass
 
 
@@ -336,6 +337,7 @@ def username_check():
 # Gives "Calculate rank" button the data it needs
 def calculate_and_update():
     checkbox()
+    username_check()
     calculations.rank_current()
     calculations.lp_count()
     calculations.winrate()
@@ -360,7 +362,6 @@ def calculate_and_update():
         )
     else:
         title6.configure(text="")
-    username_check()
     calculations.clear()
 
 
@@ -453,14 +454,6 @@ calculate = customtkinter.CTkButton(root, width=300, height=50, text="Calculate 
                                     border_color="white",
                                     )
 calculate.pack(side="bottom", padx=100, pady=10)
-
-
-
-# NOTKA:
-# TO MA BYĆ FUNKCJA KTÓRA SPRAWDZA POPRAWNOŚĆ NAZWY USERA PO WCIŚNIĘCIU PRZYCISKU "CALCULATE", CZYLI BĘDZIE NADAWAĆ SIĘ
-# DO KLASY GŁÓWNEJ. NIE ZAPOMNIEĆ!!!
-
-
 
 # Run app
 root.mainloop()
