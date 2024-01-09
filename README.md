@@ -1,11 +1,16 @@
 # SoloqSimVisualInterfaceWIP
-Currently wip visual interface of soloqsim with all its features.
+Currently wip visual interface of soloqsim with all its features. You need a riot api key from Riot Developer Portal in a .env file to run this properly.
 
 To do:
-- Option to put in riot id instead of rank (almost done)
+- ~~Option to put in riot id instead of rank~~ (done)
+- Changing the program icon
+- NumPy lists instead of normal ones
 - Mmr simulation
 - Main loop optimization
 
+A gif showing how it works:
+
+![SoloqSim](https://github.com/Manhatai/LeagueOfLegends_SoloQ_Simulator/assets/131269530/ce4405e6-f2ee-4bcf-90f7-83f0ceefb0f6)
 
 Screenshots:
 
