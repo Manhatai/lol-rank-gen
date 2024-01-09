@@ -3,6 +3,7 @@ Currently wip visual interface of soloqsim with all its features. You need a rio
 
 To do:
 - ~~Option to put in riot id instead of rank~~ (done)
+- Changing the program icon
 - NumPy lists instead of normal ones
 - Mmr simulation
 - Main loop optimization
