@@ -5,7 +5,7 @@ To do:
 - ~~Option to put in riot id instead of rank~~ (done)
 - Changing the program icon
 - NumPy lists instead of normal ones
-- Mmr simulation
+- Mmr simulation (?)
 - Main loop optimization
 
 A gif showing how it works:
