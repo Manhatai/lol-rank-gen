@@ -1,5 +1,5 @@
 # SoloqSimVisualInterfaceWIP
-Currently wip visual interface of soloqsim with all its features. You need a riot api key from Riot Developer Portal in a .env file to run this properly.
+A simple program which calculates your League of Legends rank based on your rank, winrate, and the amount of games you want to play. Features typing in your riot id, a button and more! You need a riot api key from Riot Developer Portal in a .env file to run this properly.
 
 To do:
 - ~~Option to put in riot id instead of rank~~ (done)
