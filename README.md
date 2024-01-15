@@ -1,14 +1,14 @@
-# SoloqSimVisualInterfaceWIP
+# League of Legends SoloQ Simulator
 A simple program which calculates your League of Legends rank based on your rank, winrate, and the amount of games you want to play. Features typing in your riot id, a button and more! You need a riot api key from Riot Developer Portal in a .env file to run this properly.
 
-To do:
+# To do:
 - ~~Option to put in riot id instead of rank~~ (done)
 - Changing the program icon
 - NumPy lists instead of normal ones
 - Mmr simulation (?)
 - Main loop optimization
 
-A gif showing how it works:
+# A gif showing how it works:
 
 ![SoloqSim](https://github.com/Manhatai/LeagueOfLegends_SoloQ_Simulator/assets/131269530/ce4405e6-f2ee-4bcf-90f7-83f0ceefb0f6)
 
