@@ -3,9 +3,8 @@ A simple program which calculates your League of Legends rank based on your rank
 
 # To do:
 - ~~Option to put in riot id instead of rank~~ (done)
-- Changing the program icon
-- Mmr simulation (?)
-- Main loop optimization
+- Changing the program icon + background
+~~- Main loop optimization~~
 
 # A gif showing how it works:
 
