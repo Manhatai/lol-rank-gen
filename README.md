@@ -12,7 +12,7 @@ A simple program which calculates your League of Legends rank based on your rank
 
 ![SoloqSim](https://github.com/Manhatai/LeagueOfLegends_SoloQ_Simulator/assets/131269530/ce4405e6-f2ee-4bcf-90f7-83f0ceefb0f6)
 
-Screenshots:
+# Screenshots:
 
 ![obraz](https://github.com/Manhatai/SoloqSimVisualInterfaceWIP/assets/131269530/ee88bdd8-94cb-4f65-9e8d-0f6d88f88f74)
 ![obraz](https://github.com/Manhatai/SoloqSimVisualInterfaceWIP/assets/131269530/897e47d3-9783-48cd-a636-4167281871ce)
