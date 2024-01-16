@@ -12,6 +12,7 @@ import urllib.parse
 root = customtkinter.CTk()
 root.geometry("720x780")
 root.title("SoloQ Simulator")
+root.after(201, lambda :root.iconbitmap('images\\favicon.ico'))
 
 # System settings
 customtkinter.set_appearance_mode("dark")
