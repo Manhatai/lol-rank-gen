@@ -13,14 +13,16 @@ You need a riot api key from Riot Developer Portal in a .env file to make typing
 
 # A gif showing how it works:
 
-![SoloqSim](https://github.com/Manhatai/LeagueOfLegends_SoloQ_Simulator/assets/131269530/ce4405e6-f2ee-4bcf-90f7-83f0ceefb0f6)
+![SoloqSim2](https://github.com/Manhatai/LeagueOfLegends_SoloQ_Simulator/assets/131269530/082146f4-988d-40cb-8c24-605b048f891b)
+
 
 # Screenshots:
 
-![obraz](https://github.com/Manhatai/SoloqSimVisualInterfaceWIP/assets/131269530/ee88bdd8-94cb-4f65-9e8d-0f6d88f88f74)
-![obraz](https://github.com/Manhatai/SoloqSimVisualInterfaceWIP/assets/131269530/897e47d3-9783-48cd-a636-4167281871ce)
-![obraz](https://github.com/Manhatai/SoloqSimVisualInterfaceWIP/assets/131269530/a8fc410a-00a7-4169-af2c-fc07c4ce80d0)
-![obraz](https://github.com/Manhatai/SoloqSimVisualInterfaceWIP/assets/131269530/062ca411-8046-456b-ac96-a90edeaad360)
+![obraz](https://github.com/Manhatai/LeagueOfLegends_SoloQ_Simulator/assets/131269530/ae86df37-8b80-455a-994d-e668f0614fc5)
+![obraz](https://github.com/Manhatai/LeagueOfLegends_SoloQ_Simulator/assets/131269530/87849002-1324-40d6-b53c-e3b552af1c52)
+![obraz](https://github.com/Manhatai/LeagueOfLegends_SoloQ_Simulator/assets/131269530/b8b03602-9b5b-44a6-8561-515a1ae97c4a)
+![obraz](https://github.com/Manhatai/LeagueOfLegends_SoloQ_Simulator/assets/131269530/ab1e3157-2ad4-42ff-97bb-3aba68ea19ea)
+
 
 
 
