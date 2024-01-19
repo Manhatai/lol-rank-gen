@@ -7,7 +7,6 @@ You need a riot api key from Riot Developer Portal in a .env file to make typing
 
 # To do:
 - ~~Option to put in riot id instead of rank~~ (done)
-- ~~Main loop optimization~~ (done)
 - ~~Convert to .exe~~ (done)
 
 
