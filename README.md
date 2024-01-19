@@ -8,7 +8,6 @@ A simple program which calculates your League of Legends rank based on your rank
 - ~~Main loop optimization~~ (done)
 - ~~Convert to .exe~~ (done)
 
-  v1.0 out now :)
 
 # A gif showing how it works:
 
