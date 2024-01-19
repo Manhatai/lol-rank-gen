@@ -1,10 +1,14 @@
 # League of Legends SoloQ Simulator
-A simple program which calculates your League of Legends rank based on your rank, winrate, and the amount of games you want to play. Features typing in your riot id, a button and more! You need a riot api key from Riot Developer Portal in a .env file to run this properly.
+A simple program which calculates your League of Legends rank based on your rank, winrate, and the amount of games you want to play. Features typing in your riot id, a button and more! You need a riot api key from Riot Developer Portal in a .env file to make typing in your username work.
+
+.exe file was made just for learning purposes, it doesnt include the "username_check()" functionality.
 
 # To do:
 - ~~Option to put in riot id instead of rank~~ (done)
 - ~~Main loop optimization~~ (done)
-- Convert to .exe
+- ~~Convert to .exe~~ (done)
+
+  v1.0 out now :)
 
 # A gif showing how it works:
 
