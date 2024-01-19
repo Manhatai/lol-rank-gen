@@ -1,12 +1,12 @@
-import tkinter
-import customtkinter
-import random as rd
-from pyprobs import Probability as pr
-from PIL import Image
-import requests
-from dotenv import load_dotenv
-import os
-import urllib.parse
+import tkinter # For some commands not available in customtkinter
+import customtkinter # Main app frame
+import random as rd # Lp calculations
+from pyprobs import Probability as pr # Lp calculations
+from PIL import Image # For rank image
+import requests # For getting summoners info from riots api
+from dotenv import load_dotenv # For env file usage
+import os # Same as above
+import urllib.parse #
 
 # App frame
 root = customtkinter.CTk()
@@ -110,7 +110,7 @@ class Calculations():
             foundLabel4.configure(root, text="Games expected value is invalid", text_color="red")
             gamesExpected.configure(border_width=2, border_color="red")
 
-    # Loop calculating the lp value (ranked games simulator) (class)
+    # Loop calculating the lp value (class)
     def ranked_games(self):
         games = []
         lp = 0
@@ -146,7 +146,7 @@ class Calculations():
         result_whole += self.user_lp + rank_types.get(self.user_rank)
         self.result_whole = result_whole
 
-    # Function outputting your rank on the screen + configuring rank image (class)
+    # Function outputting your rank and rank image on the screen (class)
     def rank_gained(self):
         rank_ranges = {(0, 99): "iron IV", (100, 199): "iron III", (200, 299): "iron II", (300, 399): "iron I",
                        (400, 499): "bronze IV", (500, 599): "bronze III", (600, 699): "bronze II",
@@ -255,84 +255,72 @@ def rankProb():
 
 # Getting Users account info based off RiotID
 def username_check():
-    # Getting Users RiotID
+    # Getting users RiotID
     load_dotenv()
 
     api_key = os.getenv("API_KEY")
 
     if not api_key:
         print("API key is missing. Make sure to set it in your environment variables.")
-        exit()
+        pass
 
     # Summoners username and the region they play in
     summoner_name = f"{rankInput.get()}"  # rankInput.get()
-    region = "eun1"  # Replace with the appropriate region
+    region = "eun1"  # Replace with the appropriate region for your username
 
-    print(f"Summoner's name: {summoner_name}")
+    print(f"Summoners name: {summoner_name}")
 
-    # Encode summoner name for the URL
+    # Encode summoner name into the URL
     encoded_summoner_name = urllib.parse.quote_plus(summoner_name.replace("#", "%23"))
 
     # Getting Users rank and lp
-    # Define the API endpoint
     base_url = f"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{encoded_summoner_name}"
     headers = {"X-Riot-Token": api_key}
 
-    try:
-        response = requests.get(base_url, headers=headers)
+    # Fetch summoners data from url#1
+    response = requests.get(base_url, headers=headers)
 
-        if response.status_code == 200:
-            summoner_data = response.json()
-            summoner_id = summoner_data['id']
-
-            # Get the summoner's rank information
-            rank_url = f"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner_id}"
-            rank_response = requests.get(rank_url, headers=headers)
-
-            if rank_response.status_code == 200:
-                ranks = rank_response.json()
-
-                # Extract rank information
-                rank_data = [  # a list of dictionaries
-                    {
-                        "Queue": rank["queueType"],
-                        "Rank": rank.get("tier", "Unranked"),
-                        "Division": rank.get("rank", ""),
-                        "LP": rank.get("leaguePoints", 0)
-                    }
-                    for rank in ranks
-                ]
+    # Fetch summoners data from url#2
+    if response.status_code == 200:
+        summoner_data = response.json()
+        summoner_id = summoner_data['id']
 
 
-                print(rank_data)
+        # Getting the summoners rank info
+        rank_url = f"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner_id}"
+        rank_response = requests.get(rank_url, headers=headers)
+        if rank_response.status_code == 200:
+            ranks = rank_response.json()
 
-                # If bool is true (list isnt empty) do this, or else:
-                if bool(rank_data):
-                    print("Username checks out!")
-                    users_soloq_rank = next(item for item in rank_data if item["Queue"] == "RANKED_SOLO_5x5")
-                    users_rank = users_soloq_rank["Rank"]
-                    users_div = users_soloq_rank["Division"]
-                    users_lp = users_soloq_rank["LP"]
-                    rankInput.delete(0, tkinter.END)
-                    rankInput.insert(0, str(users_rank + ' ' + users_div))
-                    leaguePoints.delete(0, tkinter.END)
-                    leaguePoints.insert(0, str(users_lp))
-                    root.update()
+            # Extract rank info
+            rank_data = [  # a list of dictionaries (!)
+                {"Queue": rank["queueType"], "Rank": rank.get("tier", "Unranked"), "Division": rank.get("rank", ""), "LP": rank.get("leaguePoints", 0)}
+                for rank in ranks
+            ]
 
-                else:
-                    print("Invalid Username or User hasn't played any solo ranked games!")
-                    pass
+            print(rank_data)
 
+            # If bool is true (list isnt empty) do this or else pass:
+            if bool(rank_data):
+                print("Username checks out!")
+                users_soloq_rank = next(item for item in rank_data if item["Queue"] == "RANKED_SOLO_5x5") #
+                users_rank = users_soloq_rank["Rank"]
+                users_div = users_soloq_rank["Division"]
+                users_lp = users_soloq_rank["LP"]
+                rankInput.delete(0, tkinter.END)
+                rankInput.insert(0, str(users_rank + ' ' + users_div))
+                leaguePoints.delete(0, tkinter.END)
+                leaguePoints.insert(0, str(users_lp))
+                root.update()
 
             else:
-                print(f"Error getting rank information: {rank_response.status_code}")
+                print("Invalid Username or User hasn't played any solo ranked games!")
                 pass
         else:
-            print(f"Error getting summoner information: {response.status_code}")
+            print(f"Error getting rank information: {rank_response.status_code}")
             pass
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    else:
+        print(f"Error getting summoner information: {response.status_code}")
         pass
 
 # Gives "Calculate rank" button the data it needs
@@ -359,12 +347,10 @@ def calculate_and_update():
             text_color="#0DFF00",
             padx=10,
             pady=10,
-
         )
     else:
         title6.configure(text="")
     calculations.clear()
-
 
 # Rank input (app)
 title = customtkinter.CTkLabel(root, text="Enter your username or rank:", font=("Roboto", 16))
