@@ -6,7 +6,7 @@ from PIL import Image # For rank image
 import requests # For getting summoners info from riots api
 from dotenv import load_dotenv # For env file usage
 import os # Same as above
-import urllib.parse #
+import urllib.parse # For encoding summoner name into the URL
 
 # App frame
 root = customtkinter.CTk()
@@ -277,10 +277,8 @@ def username_check():
     base_url = f"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{encoded_summoner_name}"
     headers = {"X-Riot-Token": api_key}
 
-    # Fetch summoners data from url#1
+    # Fetch summoners data from URL
     response = requests.get(base_url, headers=headers)
-
-    # Fetch summoners data from url#2
     if response.status_code == 200:
         summoner_data = response.json()
         summoner_id = summoner_data['id']
@@ -300,7 +298,7 @@ def username_check():
 
             print(rank_data)
 
-            # If bool is true (list isnt empty) do this or else pass:
+            # If bool is true (list isn't empty) do this:
             if bool(rank_data):
                 print("Username checks out!")
                 users_soloq_rank = next(item for item in rank_data if item["Queue"] == "RANKED_SOLO_5x5") #
