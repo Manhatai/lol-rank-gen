@@ -1,4 +1,4 @@
-# League of Legends SoloQ Simulator
+# League of Legends Rank Generator
 A simple program which calculates your League of Legends rank based on your rank, winrate, and the amount of games you want to play. Features typing in your riot id, a button and more! 
 
 You need a riot api key from Riot Developer Portal in a .env file to make typing in your username work.
